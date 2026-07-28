@@ -13,7 +13,11 @@ The project has two halves:
   gold standard by **content-based field alignment**, reports per-field agreement, builds the
   human-review comparison table, and provides inter-rater and pharmacy-concordance analyses.
 
-![extraction workflow](docs/workflow.png)
+<p align="center">
+
+  <img src="docs/workflow.png" alt="Extraction workflow">
+
+</p>
 
 ## Repository layout
 
