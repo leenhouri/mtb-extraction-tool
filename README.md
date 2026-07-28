@@ -269,9 +269,20 @@ place per-patient Markdown files in
 request from the corresponding author. The data are not publicly available due to privacy or
 ethical restrictions.
 
-**Ethics.** Local ethics approval was granted (No. ****).
+**Ethics.** Local ethics approval was granted (No. 2025-362-S-CB).
 
-> Institution and author identifiers are omitted for double-blind review.
+## Citation
+
+If you use this code, please cite:
+
+> Houri, L., Tahiri, N., Voelker, G., Arlanch, E., Koechert, M., Frank, J., Kuligin, L.,
+> Lübberstedt, J., Bressem, K., Boeker, M., Tschochohei, M., Lammert, J.:
+> Toward Oncology Digital Twins: Leveraging LLMs for Automated Longitudinal Data
+> Ingestion in Ovarian Cancer Care. MICCAI 2026 Workshop (2026).
+
+**Contact.** Leen Houri — leen.houri@tum.de
+Chair of Medical Informatics, Institute for AI and Informatics in Medicine,
+TUM School of Medicine and Health, Technical University of Munich, Munich, Germany.
 
 ## Further documentation
 
