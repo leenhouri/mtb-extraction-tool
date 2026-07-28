@@ -1,0 +1,38 @@
+# Python
+.venv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment / secrets
+.env
+
+# LangGraph checkpoints
+checkpoints.sqlite*
+
+# Pipeline I/O (clinical data — do not commit)
+input/
+output/
+gold/
+gold_standard/
+
+# Evaluation artifacts containing patient-level values (do not commit)
+# (aggregate metrics_*.json / metrics_*.csv are intentionally NOT ignored)
+comparison_*.csv
+comparison_*.xlsx
+pharmacy_concordance_*.csv
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# Planned columnar output (not yet produced)
+*.parquet
