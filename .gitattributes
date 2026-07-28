@@ -1,0 +1,35 @@
+# Normalize all text files to LF in the repository and on checkout, so the
+# submission is byte-consistent across Windows/macOS/Linux and lockfiles don't
+# churn between CRLF and LF. Binary assets are marked explicitly so Git neither
+# normalizes nor attempts to diff them.
+
+# Default: let Git detect text vs. binary, and use LF for anything textual.
+* text=auto eol=lf
+
+# Explicit text files (belt-and-suspenders for files Git might misdetect).
+*.py            text eol=lf
+*.md            text eol=lf
+*.txt           text eol=lf
+*.toml          text eol=lf
+*.ts            text eol=lf
+*.json          text eol=lf
+*.csv           text eol=lf
+*.cfg           text eol=lf
+*.ini           text eol=lf
+uv.lock         text eol=lf
+.gitignore      text eol=lf
+.gitattributes  text eol=lf
+.python-version text eol=lf
+.env.example    text eol=lf
+
+# Binary assets: never normalize, never line-ending-convert, never text-diff.
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.gif      binary
+*.pdf      binary
+*.xlsx     binary
+*.xlsm     binary
+*.xls      binary
+*.parquet  binary
+*.sqlite   binary
