@@ -1,7 +1,7 @@
 [project]
 name = "ehr-extractor"
 version = "0.1.0"
-description = "Agentic EHR Extraction Pipeline for unstructured clinical documents"
+description = "LLM-based EHR extraction and evaluation pipeline for unstructured clinical documents"
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.12"
@@ -25,6 +25,7 @@ ehr-pharmacy = "ehr.evaluation.pharmacy:main"
 ehr-significance = "ehr.evaluation.significance:main"
 ehr-interrater = "ehr.evaluation.interrater:main"
 ehr-agreement-stats = "ehr.evaluation.agreement_stats:main"
+ehr-entity-metrics = "ehr.evaluation.entity_metrics:main"
 
 [build-system]
 requires = ["hatchling"]
