@@ -20,7 +20,7 @@ The project has two halves:
 
 <p align="center">
 
-  <img src="docs/workflow.png" alt="Extraction workflow">
+  <img src="docs/workflow-poc-2.png" alt="Extraction workflow">
 
 </p>
 
