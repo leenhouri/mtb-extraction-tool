@@ -1,17 +1,22 @@
-# Agentic EHR Extraction & Evaluation Pipeline
+# MTB Extraction & Evaluation Pipeline
 
-An automated system that ingests unstructured clinical documents in Markdown, extracts
-structured, chronological oncology patient journeys with a large language model, and
-evaluates those extractions against a clinician-adjudicated gold standard.
+Automated longitudinal data ingestion for ovarian cancer care: the system ingests unstructured
+multidisciplinary tumor board (MTB) protocols in Markdown, extracts structured, chronological
+oncology patient journeys with a locally hosted large language model, and evaluates those
+extractions against a clinician-adjudicated gold standard.
+
+Reference implementation for *Toward Oncology Digital Twins: Leveraging LLMs for Automated
+Longitudinal Data Ingestion in Ovarian Cancer Care* (see [Citation](#citation)).
 
 The project has two halves:
 
 - **Extraction** (`ehr.pipeline`) — a LangGraph state machine that maps dense clinical
-  histories onto a strict Pydantic schema, with bounded self-correction, persisting one
-  JSON record per patient.
+  histories onto a strict Pydantic schema in a single extraction pass with a bounded
+  validation-retry loop, persisting one JSON record per patient.
 - **Evaluation** (`ehr.evaluation`) — an offline harness that scores predictions against a
-  gold standard by **content-based field alignment**, reports per-field agreement, builds the
-  human-review comparison table, and provides inter-rater and pharmacy-concordance analyses.
+  gold standard by **content-based field alignment**, reports per-field agreement and
+  entity-level precision/recall, builds the human-review comparison table, and provides
+  inter-rater and pharmacy-concordance analyses.
 
 <p align="center">
 
@@ -39,6 +44,7 @@ src/ehr/
     significance.py             GS vs Human agreement per field + exact McNemar significance
     interrater.py               inter-rater agreement (Clinician 1 vs Clinician 2) + Cohen's kappa
     agreement_stats.py          bootstrap CIs, Gwet's AC1, and trivial-agreement decomposition
+    entity_metrics.py           entity-level precision/recall/F1 (missed and spurious entities)
     pharmacy.py                 extracted medications vs pharmacy dispensing records
     drugs.py                    active-ingredient canonicalisation
     normalization.py            deterministic date + biomarker-name normalisation
@@ -204,6 +210,31 @@ comparison sheet:
 
 All point estimates are deterministic; only the bootstrap CI depends on `--seed` (default fixed) and
 `--bootstrap-n` (default 20 000). Prints a table and writes an `.xlsx`.
+
+### Entity-level precision and recall — `entity_metrics.py`
+
+```bash
+uv run ehr-entity-metrics comparison.xlsx \
+    --gold-col "ground_truth (Clinician 2)" --pred-col output_2
+```
+
+Field-level agreement presupposes that an item was **aligned at all**: it scores the values
+*inside* paired entities and is silent about entities the model missed entirely or introduced
+spuriously. This tool closes that gap. Rows of the comparison sheet are grouped into their
+entity instance (the field path minus its leaf, e.g. `doc0.treatment.med[0]`), and an entity
+counts as present on a side when at least one of its fields carries a non-empty value under
+`matching.norm`:
+
+| | meaning |
+|---|---|
+| **TP** | entity present on both sides |
+| **FP** | present only in the prediction (invented) |
+| **FN** | present only in the gold standard (missed) |
+
+Reported per list-valued entity type (treatment, medication, surgery, biomarker), grouped by
+`matching.field_type` so the rows line up with the headline metrics. Scalar groups (patient,
+document, diagnosis, tumor board) are not list-valued and have no presence question to answer,
+so they are out of scope. Prints a table and writes an `.xlsx`.
 
 ### Pharmacy concordance — `pharmacy.py`
 
